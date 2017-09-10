@@ -1,13 +1,12 @@
 // Create a new list item when clicking on the "Add" button
 import { $, $$ } from './bling';
 
-function addTodo() {
+function renderTodo(inputValue='', ) {
    var li = document.createElement("li");
-   var inputValue = $("#myInput").value;
    var t = document.createTextNode(inputValue);
    li.appendChild(t);
    if (inputValue === '') {
-     alert("You must write something!");
+     Promise.reject("You must write something!");
    } else {
      $("#myUL").appendChild(li);
    }
@@ -27,4 +26,4 @@ function addTodo() {
    }
  }
  
- export default addTodo;
+ export default renderTodo;
