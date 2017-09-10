@@ -65,6 +65,13 @@ ul li.checked::before {
 }
 
 /* Style the close button */
+ul>li>i {
+   position: absolute;
+   right: 55px;
+   font-size: 11px;
+   top: 16px;
+}
+
 .close {
    position: absolute;
    right: 0;

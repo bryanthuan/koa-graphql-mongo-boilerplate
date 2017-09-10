@@ -3,7 +3,7 @@ import '../css/style.css';
 import { $, $$ } from './modules/bling';
 import renderTodo from './modules/renderTodo';
 import { addTodo, dismissTodo } from './modules/mutationTodo';
-
+import moment from 'moment';
 import queryTodos from './modules/queryTodos';
 
 queryTodos().then(({data}) => {
@@ -12,36 +12,17 @@ queryTodos().then(({data}) => {
     renderTodo(item);
   })
 });
-// Create a "close" button and append it to each list item
-var myNodelist = $$("LI");
-if (myNodelist) {
-  for (let i = 0; i < myNodelist.length; i++) {
-    var span = document.createElement("SPAN");
-    var txt = document.createTextNode("\u00D7");
-    span.className = "close";
-    span.appendChild(txt);
-    myNodelist[i].appendChild(span);
-  }
-}
-
-
-// Click on a close button to hide the current list item
-var close = $(".close");
-if (close) {
-  for (let i = 0; i < close.length; i++) {
-    close[i].onclick = function() {
-      var div = this.parentElement;
-      div.style.display = "none";
-    }
-  }
-}
-
 
 // Add a "checked" symbol when clicking on a list item
 var list = $$('ul');
 list.addEventListener('click', function(ev) {
   if (ev.target.tagName === 'LI') {    
-    dismissTodo(ev.target.getAttribute('data-id')).then(res => {
+    dismissTodo(ev.target.getAttribute('data-id')).then(({ data }) => {
+      console.log(data);
+      const { updatedAt, createdAt } = data.toggleDismiss;
+      var fromNow = updatedAt ? moment(updatedAt).startOf('hour').fromNow() : moment(createdAt).startOf('hour').fromNow();
+      var time = document.createTextNode(fromNow);
+      ev.target.children[1].replaceChild(time,ev.target.children[1].firstChild);
       ev.target.classList.toggle('checked');
     });
     
