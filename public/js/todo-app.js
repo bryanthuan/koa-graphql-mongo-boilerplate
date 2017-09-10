@@ -2,15 +2,14 @@ import '../css/style.css';
 
 import { $, $$ } from './modules/bling';
 import renderTodo from './modules/renderTodo';
-import { addTodo } from './modules/mutationTodo';
-// import dismissTodo from './modules/dismissTodo';
+import { addTodo, dismissTodo } from './modules/mutationTodo';
 
 import queryTodos from './modules/queryTodos';
 
 queryTodos().then(({data}) => {
   if(!data['todos']) return Promise.reject();
   data['todos'].forEach(item => {
-    renderTodo(item.text);
+    renderTodo(item);
   })
 });
 // Create a "close" button and append it to each list item
@@ -41,8 +40,11 @@ if (close) {
 // Add a "checked" symbol when clicking on a list item
 var list = $$('ul');
 list.addEventListener('click', function(ev) {
-  if (ev.target.tagName === 'LI') {
-    ev.target.classList.toggle('checked');
+  if (ev.target.tagName === 'LI') {    
+    dismissTodo(ev.target.getAttribute('data-id')).then(res => {
+      ev.target.classList.toggle('checked');
+    });
+    
   }
 }, false);
 
@@ -55,7 +57,7 @@ $('.addBtn').on('click',() => {
     if(!data.addTodo) {
       throw new Error('Empty element from server');
     }
-    renderTodo(data.addTodo.text);
+    renderTodo(data.addTodo);
   });
 });
 

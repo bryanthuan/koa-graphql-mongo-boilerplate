@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 function addTodo(text = '') {
+   if(!text) return Promise.reject();
    let configJson = {
       url: '/graphql',
       method: 'POST', 
@@ -8,9 +9,10 @@ function addTodo(text = '') {
          query: `
          mutation ($text: String!) {
             addTodo(text: $text) {              
-              text
-              dismissed
-              createdAt
+               id            
+               text
+               dismissed
+               createdAt
             }
           }         
          `,
@@ -23,4 +25,30 @@ function addTodo(text = '') {
    });
 }
 
-module.exports = { addTodo };
+function dismissTodo(id = '') {
+   if(!id) return Promise.reject();
+   let configJson = {
+      url: '/graphql',
+      method: 'POST', 
+      data: {
+         query: `
+         mutation ($id: ID!) {
+            toggleDismiss(id: $id) {  
+               id            
+               text
+               dismissed
+               createdAt
+               updatedAt
+            }
+          }         
+         `,
+         variables: {id}
+      }
+   };
+   return axios(configJson).then(({data})=> {
+      if(!data) return Promise.reject();
+      return data;
+   });
+}
+
+module.exports = { addTodo, dismissTodo };

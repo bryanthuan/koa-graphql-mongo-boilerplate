@@ -8,6 +8,7 @@ function queryTodos() {
          query: `
          query Todo {
             todos {
+              id
               text
               dismissed
               createdAt

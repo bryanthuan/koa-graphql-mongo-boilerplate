@@ -1,11 +1,11 @@
 // Create a new list item when clicking on the "Add" button
 import { $, $$ } from './bling';
 
-function renderTodo(inputValue='', ) {
+function renderTodo({text, id, dismissed}) {
    var li = document.createElement("li");
-   var t = document.createTextNode(inputValue);
+   var t = document.createTextNode(text);
    li.appendChild(t);
-   if (inputValue === '') {
+   if (text === '') {
      Promise.reject("You must write something!");
    } else {
      $("#myUL").appendChild(li);
@@ -17,7 +17,8 @@ function renderTodo(inputValue='', ) {
    span.className = "close";
    span.appendChild(txt);
    li.appendChild(span);
- 
+   li.setAttribute('data-id',id)
+   if (dismissed) li.classList.add('checked');
    for (let i = 0; i < close.length; i++) {
      close[i].onclick = function() {
        var div = this.parentElement;

@@ -1814,13 +1814,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
   if (!data['todos']) return Promise.reject();
   data['todos'].forEach(function (item) {
-    (0, _renderTodo2.default)(item.text);
+    (0, _renderTodo2.default)(item);
   });
 });
 // Create a "close" button and append it to each list item
-
-// import dismissTodo from './modules/dismissTodo';
-
 var myNodelist = (0, _bling.$$)("LI");
 if (myNodelist) {
   for (var i = 0; i < myNodelist.length; i++) {
@@ -1847,7 +1844,9 @@ if (close) {
 var list = (0, _bling.$$)('ul');
 list.addEventListener('click', function (ev) {
   if (ev.target.tagName === 'LI') {
-    ev.target.classList.toggle('checked');
+    (0, _mutationTodo.dismissTodo)(ev.target.getAttribute('data-id')).then(function (res) {
+      ev.target.classList.toggle('checked');
+    });
   }
 }, false);
 
@@ -1862,7 +1861,7 @@ list.addEventListener('click', function (ev) {
     if (!data.addTodo) {
       throw new Error('Empty element from server');
     }
-    (0, _renderTodo2.default)(data.addTodo.text);
+    (0, _renderTodo2.default)(data.addTodo);
   });
 });
 
@@ -1885,13 +1884,15 @@ Object.defineProperty(exports, "__esModule", {
 
 var _bling = __webpack_require__(1);
 
-function renderTodo() {
-  var inputValue = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+function renderTodo(_ref) {
+  var text = _ref.text,
+      id = _ref.id,
+      dismissed = _ref.dismissed;
 
   var li = document.createElement("li");
-  var t = document.createTextNode(inputValue);
+  var t = document.createTextNode(text);
   li.appendChild(t);
-  if (inputValue === '') {
+  if (text === '') {
     Promise.reject("You must write something!");
   } else {
     (0, _bling.$)("#myUL").appendChild(li);
@@ -1903,7 +1904,8 @@ function renderTodo() {
   span.className = "close";
   span.appendChild(txt);
   li.appendChild(span);
-
+  li.setAttribute('data-id', id);
+  if (dismissed) li.classList.add('checked');
   for (var i = 0; i < close.length; i++) {
     close[i].onclick = function () {
       var div = this.parentElement;
@@ -1935,7 +1937,7 @@ function queryTodos() {
       url: '/graphql',
       method: 'POST',
       data: {
-         query: '\n         query Todo {\n            todos {\n              text\n              dismissed\n              createdAt\n              updatedAt\n            }\n          }          \n         '
+         query: '\n         query Todo {\n            todos {\n              id\n              text\n              dismissed\n              createdAt\n              updatedAt\n            }\n          }          \n         '
       }
    };
    return (0, _axios2.default)(configJson).then(function (_ref) {
@@ -1964,11 +1966,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function addTodo() {
    var text = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
 
+   if (!text) return Promise.reject();
    var configJson = {
       url: '/graphql',
       method: 'POST',
       data: {
-         query: '\n         mutation ($text: String!) {\n            addTodo(text: $text) {              \n              text\n              dismissed\n              createdAt\n            }\n          }         \n         ',
+         query: '\n         mutation ($text: String!) {\n            addTodo(text: $text) {              \n               id            \n               text\n               dismissed\n               createdAt\n            }\n          }         \n         ',
          variables: { text: text }
       }
    };
@@ -1980,7 +1983,27 @@ function addTodo() {
    });
 }
 
-module.exports = { addTodo: addTodo };
+function dismissTodo() {
+   var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+
+   if (!id) return Promise.reject();
+   var configJson = {
+      url: '/graphql',
+      method: 'POST',
+      data: {
+         query: '\n         mutation ($id: ID!) {\n            toggleDismiss(id: $id) {  \n               id            \n               text\n               dismissed\n               createdAt\n               updatedAt\n            }\n          }         \n         ',
+         variables: { id: id }
+      }
+   };
+   return (0, _axios2.default)(configJson).then(function (_ref2) {
+      var data = _ref2.data;
+
+      if (!data) return Promise.reject();
+      return data;
+   });
+}
+
+module.exports = { addTodo: addTodo, dismissTodo: dismissTodo };
 
 /***/ })
 /******/ ]);
