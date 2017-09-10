@@ -4,7 +4,8 @@ const {
   GraphQLString
 } = require('graphql');
 const { TodoType } = require('./types');
-
+const mongoose = require('mongoose');
+const Todo = mongoose.model('Todo');
 
 exports.mutation = new GraphQLObjectType({
   name: 'Mutation',
@@ -18,14 +19,12 @@ exports.mutation = new GraphQLObjectType({
               type: new GraphQLNonNull(GraphQLString)
             }
           },
-          resolve: (parentValue, {text}) => {
-            var newTodo = {
+          resolve: (parentValue, {text}) => {            
+            const todo = new Todo({
               text,
-              dismissed: false,
-              createdAt: new Date()
-            };              
-            return axios.post('http://localhost:3000/todos', newTodo)
-              .then(res => res.data);
+            });              
+            return todo.save()
+              .then(res => res);
           }
       }
   }

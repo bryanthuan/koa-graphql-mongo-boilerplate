@@ -14,7 +14,9 @@ const {
     GraphQLDateTime
   } = require('graphql-iso-date');
 
-  exports.TodoType = new GraphQLObjectType({
+
+
+exports.TodoType = new GraphQLObjectType({
     name: 'Todo',
     fields: {
         id: {

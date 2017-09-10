@@ -17,7 +17,7 @@ mongoose.connection.on('error', (err) => {
 });
 
 // READY?! Let's go!
-
+require('./models/Todo');
 
 // Start our app!
 const app = require('./app');

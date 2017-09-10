@@ -6,15 +6,9 @@ const schema = require('../schema');
 const router = new Router();
 
 router.get('/', async(ctx, next) => {
-   console.log('ip:', ctx.request.ip);
-   const start = Date.now();
-   await next();
-   const ms = Date.now() - start;
-   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`);
-}, (ctx, next) => {
    ctx.body = 'Hello Todo!';
-})
-.all('/graphql', graphqlHTTP({schema: schema, graphiql: true}));
+});
 
+router.all('/graphql', graphqlHTTP({schema: schema, graphiql: true}));
 
 module.exports = router;
