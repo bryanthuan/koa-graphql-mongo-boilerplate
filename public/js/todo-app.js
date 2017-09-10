@@ -18,7 +18,6 @@ var list = $$('ul');
 list.addEventListener('click', function(ev) {
   if (ev.target.tagName === 'LI') {    
     dismissTodo(ev.target.getAttribute('data-id')).then(({ data }) => {
-      console.log(data);
       const { updatedAt, createdAt } = data.toggleDismiss;
       var fromNow = updatedAt ? moment(updatedAt).startOf('hour').fromNow() : moment(createdAt).startOf('hour').fromNow();
       var time = document.createTextNode(fromNow);

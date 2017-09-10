@@ -18063,8 +18063,6 @@ list.addEventListener('click', function (ev) {
   if (ev.target.tagName === 'LI') {
     (0, _mutationTodo.dismissTodo)(ev.target.getAttribute('data-id')).then(function (_ref2) {
       var data = _ref2.data;
-
-      console.log(data);
       var _data$toggleDismiss = data.toggleDismiss,
           updatedAt = _data$toggleDismiss.updatedAt,
           createdAt = _data$toggleDismiss.createdAt;
