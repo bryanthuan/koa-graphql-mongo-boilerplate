@@ -1,0 +1,86 @@
+{
+  "todos": [
+    {
+      "id": 1446412739542,
+      "text": "Read emails",
+      "dismissed": false,
+      "createdAt": 1505012677438,
+      "updatedAt": null
+    },
+    {
+      "id": 1305012049594,
+      "text": "Buy orange",
+      "dismissed": true,
+      "createdAt": 1505012736931,
+      "updatedAt": 1505012749594
+    },
+    {
+      "id": 1505012928371,
+      "text": "Meeting with CTO",
+      "dismissed": false,
+      "createdAt": 1505012928371,
+      "updatedAt": null
+    },
+    {
+      "id": 1505012677438,
+      "text": "Meeting with Brian",
+      "dismissed": false,
+      "createdAt": 1505012928371,
+      "updatedAt": null
+    },
+    {
+      "title": "Meet Brian",
+      "completed": false,
+      "createdAt": 1505020872126,
+      "id": 1505012928372
+    },
+    {
+      "text": "Meet Brian",
+      "completed": false,
+      "createdAt": 1505020938310,
+      "id": 1505012928373
+    },
+    {
+      "text": "Meet Brian",
+      "dismissed": false,
+      "createdAt": 1505020959067,
+      "id": 1505012928374
+    },
+    {
+      "text": "Meet Brian",
+      "dismissed": false,
+      "createdAt": 1505020967359,
+      "id": 1505012928375
+    },
+    {
+      "text": "Meet Brian",
+      "dismissed": false,
+      "createdAt": 1505021000185,
+      "id": 1505012928376
+    },
+    {
+      "text": "Meet Brian",
+      "dismissed": false,
+      "createdAt": 1505021001463,
+      "id": 1505012928377
+    },
+    {
+      "text": "Meet Brian",
+      "dismissed": false,
+      "createdAt": 1505021378839,
+      "id": 1505012928378
+    },
+    {
+      "text": "Meet Brian",
+      "dismissed": false,
+      "createdAt": 1505021408594,
+      "id": 1505012928379
+    },
+    {
+      "text": "Meet Brian",
+      "dismissed": false,
+      "createdAt": "2017-09-10T05:30:47.215Z",
+      "id": 1505012928380
+    }
+  ]
+}

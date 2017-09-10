@@ -1,0 +1,23 @@
+{
+  "name": "next_todo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.16.2",
+    "dotenv": "^4.0.0",
+    "graphql": "^0.11.3",
+    "graphql-iso-date": "^3.3.0",
+    "koa": "^2.3.0",
+    "koa-graphql": "^0.7.3",
+    "koa-router": "^7.2.1",
+    "lodash": "^4.17.4",
+    "mongodb": "^2.2.31",
+    "mongoose": "^4.11.10"
+  }
+}
