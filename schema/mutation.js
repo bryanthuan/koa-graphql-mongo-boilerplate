@@ -1,7 +1,8 @@
 const {
   GraphQLObjectType,
   GraphQLNonNull,
-  GraphQLString
+  GraphQLString,
+  GraphQLID
 } = require('graphql');
 const { TodoType } = require('./types');
 const mongoose = require('mongoose');
@@ -26,6 +27,26 @@ exports.mutation = new GraphQLObjectType({
             return todo.save()
               .then(res => res);
           }
+      },
+      dismiss: {
+        type: TodoType,
+        description: 'Dismiss a todo task',
+        args: {
+          id: {
+            name: 'Todo Id',
+            type: new GraphQLNonNull(GraphQLID)
+          }
+        },
+        resolve: (parentValue, {id}) => {
+          const changedTodo = {
+            dismissed: true,
+            updatedAt: new Date()
+          }
+          return Todo.findOneAndUpdate({
+            _id: id
+        }, { $set: changedTodo }, { new: true })
+         .then(todo => todo);
+        }
       }
-  }
+    }
 });
