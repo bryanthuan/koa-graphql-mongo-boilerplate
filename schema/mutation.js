@@ -28,7 +28,7 @@ exports.mutation = new GraphQLObjectType({
               .then(res => res);
           }
       },
-      dismiss: {
+      toggleDismiss: {
         type: TodoType,
         description: 'Dismiss a todo task',
         args: {
@@ -37,15 +37,18 @@ exports.mutation = new GraphQLObjectType({
             type: new GraphQLNonNull(GraphQLID)
           }
         },
-        resolve: (parentValue, {id}) => {
+        resolve: async (parentValue, {id}) => {
+          
+          const todo = await Todo.findById(id);
+
+          if(!todo) return Promise.reject;
           const changedTodo = {
-            dismissed: true,
-            updatedAt: new Date()
+            dismissed: !todo.dismissed,
+            updatedAt: !todo.dismissed ? new Date() : null
           }
-          return Todo.findOneAndUpdate({
-            _id: id
-        }, { $set: changedTodo }, { new: true })
-         .then(todo => todo);
+          
+          return Todo.findByIdAndUpdate(id, { $set: changedTodo }, { new: true })
+            .then(todo => todo);
         }
       }
     }
