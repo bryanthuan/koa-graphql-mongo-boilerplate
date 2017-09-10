@@ -25,12 +25,13 @@ exports.mutation = new GraphQLObjectType({
               text,
             });              
             return todo.save()
-              .then(res => res);
+              .then(res => res)
+              .catch(e => Promise.reject());
           }
       },
       toggleDismiss: {
         type: TodoType,
-        description: 'Dismiss a todo task',
+        description: 'Toggle dismiss a todo task',
         args: {
           id: {
             name: 'Todo Id',
@@ -48,7 +49,23 @@ exports.mutation = new GraphQLObjectType({
           }
           
           return Todo.findByIdAndUpdate(id, { $set: changedTodo }, { new: true })
-            .then(todo => todo);
+            .then(todo => todo)
+            .catch(e => Promise.reject());
+        }
+      },
+      removeTodo: {
+        type: TodoType,
+        description: 'Delete a todo',
+        args: {
+          id: {
+            name: 'Todo Id',
+            type: new GraphQLNonNull(GraphQLID)
+          }
+        },
+        resolve: async (parentValue, {id}) => {
+          return Todo.findByIdAndRemove(id)
+            .then(todo => todo)
+            .catch(e => Promise.reject());
         }
       }
     }

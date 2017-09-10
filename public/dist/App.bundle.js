@@ -1865,6 +1865,22 @@ list.addEventListener('click', function (ev) {
   });
 });
 
+(0, _bling.$)("#myInput").on('keydown', function (e) {
+  if (e.keyCode !== 13) return;
+  if (e.target.value === '') {
+    alert('You must write something');
+    return;
+  }
+  (0, _mutationTodo.addTodo)(e.target.value).then(function (_ref3) {
+    var data = _ref3.data;
+
+    if (!data.addTodo) {
+      throw new Error('Empty element from server');
+    }
+    (0, _renderTodo2.default)(data.addTodo);
+  });
+});
+
 /***/ }),
 /* 32 */,
 /* 33 */,
@@ -1884,6 +1900,9 @@ Object.defineProperty(exports, "__esModule", {
 
 var _bling = __webpack_require__(1);
 
+var _mutationTodo = __webpack_require__(40);
+
+// Create a new list item when clicking on the "Add" button
 function renderTodo(_ref) {
   var text = _ref.text,
       id = _ref.id,
@@ -1902,17 +1921,19 @@ function renderTodo(_ref) {
   var span = document.createElement("SPAN");
   var txt = document.createTextNode('\xD7');
   span.className = "close";
+  span.onclick = function () {
+    if (!confirm("Are you sure ?")) return;
+    var div = this.parentElement;
+    (0, _mutationTodo.removeTodo)(div.getAttribute('data-id')).then(function (res) {
+      div.style.display = "none";
+    });
+  };
   span.appendChild(txt);
   li.appendChild(span);
   li.setAttribute('data-id', id);
   if (dismissed) li.classList.add('checked');
-  for (var i = 0; i < close.length; i++) {
-    close[i].onclick = function () {
-      var div = this.parentElement;
-      div.style.display = "none";
-    };
-  }
-} // Create a new list item when clicking on the "Add" button
+}
+
 exports.default = renderTodo;
 
 /***/ }),
@@ -2003,7 +2024,27 @@ function dismissTodo() {
    });
 }
 
-module.exports = { addTodo: addTodo, dismissTodo: dismissTodo };
+function removeTodo() {
+   var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+
+   if (!id) return Promise.reject();
+   var configJson = {
+      url: '/graphql',
+      method: 'POST',
+      data: {
+         query: '\n        mutation ($id: ID!) {\n           removeTodo(id: $id) {  \n              id            \n              text\n           }\n         }         \n        ',
+         variables: { id: id }
+      }
+   };
+   return (0, _axios2.default)(configJson).then(function (_ref3) {
+      var data = _ref3.data;
+
+      if (!data) return Promise.reject();
+      return data;
+   });
+}
+
+module.exports = { addTodo: addTodo, dismissTodo: dismissTodo, removeTodo: removeTodo };
 
 /***/ })
 /******/ ]);

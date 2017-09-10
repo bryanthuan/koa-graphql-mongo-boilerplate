@@ -51,4 +51,27 @@ function dismissTodo(id = '') {
    });
 }
 
-module.exports = { addTodo, dismissTodo };
+function removeTodo(id = '') {
+  if(!id) return Promise.reject();
+  let configJson = {
+     url: '/graphql',
+     method: 'POST', 
+     data: {
+        query: `
+        mutation ($id: ID!) {
+           removeTodo(id: $id) {  
+              id            
+              text
+           }
+         }         
+        `,
+        variables: {id}
+     }
+  };
+  return axios(configJson).then(({data})=> {
+     if(!data) return Promise.reject();
+     return data;
+  });
+}
+
+module.exports = { addTodo, dismissTodo, removeTodo };

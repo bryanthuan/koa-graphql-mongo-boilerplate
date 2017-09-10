@@ -61,4 +61,19 @@ $('.addBtn').on('click',() => {
   });
 });
 
+$("#myInput").on('keydown', (e) => {
+  if(e.keyCode !== 13) return;
+  if(e.target.value ==='') {
+    alert('You must write something');
+    return;
+  }
+  addTodo(e.target.value).then(({data}) => {
+    if(!data.addTodo) {
+      throw new Error('Empty element from server');
+    }
+    renderTodo(data.addTodo);
+  });
+
+});
+
 
