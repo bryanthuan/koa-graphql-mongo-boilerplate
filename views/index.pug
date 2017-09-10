@@ -4,12 +4,15 @@ html(lang="en")
       meta(charset="UTF-8")
       meta(name="viewport", content="width=device-width, initial-scale=1.0")
       meta(http-equiv="X-UA-Compatible", content="ie=edge")
-      title Document
+      link(rel="stylesheet", href="https://fonts.googleapis.com/css?family=ABeeZee")
+      title My To Do List || thuann89@gmail.com
+      
+      link(rel='stylesheet', href='/dist/style.css')
    body
       #myDIV.header
          h2(style='margin:5px') My To Do List
          input#myInput(type='text', placeholder='Title...')
-         span.addBtn(onclick='newElement()') Add
+         span.addBtn Add
       ul#myUL
          li Hit the gym
          li.checked Pay bills
@@ -18,3 +21,5 @@ html(lang="en")
          li Read a book
          li Organize office
 
+      block scripts
+         script(src="/dist/App.bundle.js")

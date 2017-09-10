@@ -3,10 +3,13 @@ const Router = require('koa-router');
 const graphqlHTTP = require('koa-graphql');
 const schema = require('../schema');
 
+
 const router = new Router();
 
+
 router.get('/', async(ctx, next) => {
-   ctx.body = 'Hello Todo!';
+   // ctx.body = 'Hello Todo!';
+   await ctx.render('index');
 });
 
 router.all('/graphql', graphqlHTTP({schema: schema, graphiql: true}));

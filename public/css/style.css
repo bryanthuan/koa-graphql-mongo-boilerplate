@@ -7,6 +7,10 @@ https://www.w3schools.com/howto/howto_js_todolist.asp
    box-sizing: border-box;
 }
 
+body {
+   font-family: 'ABeeZee';font-size: 22px;
+}
+
 /* Remove margins and padding from the list */
 ul {
    margin: 0;
